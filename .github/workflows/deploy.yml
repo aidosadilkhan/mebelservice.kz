@@ -1,0 +1,32 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Указываем ветку, в которой будем собирать проект
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'  # Укажите версию Node.js
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build  # Сборка проекта
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages  # Ветка, в которую будут загружены файлы
+          folder: build  # Папка с результатами сборки
+          token: ${{ secrets.GITHUB_TOKEN }}
