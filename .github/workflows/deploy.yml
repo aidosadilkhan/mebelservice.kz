@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # Указываем ветку, в которой будем собирать проект
+      - main  # Ветка, в которой будет происходить деплой
 
 jobs:
   build:
@@ -16,17 +16,16 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'  # Укажите версию Node.js
+          node-version: '16'
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build
-        run: npm run build  # Сборка проекта
+      - name: Build project
+        run: npm run build
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          branch: gh-pages  # Ветка, в которую будут загружены файлы
-          folder: build  # Папка с результатами сборки
-          token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist  # Папка с результатами сборки
